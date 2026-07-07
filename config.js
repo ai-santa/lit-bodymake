@@ -17,7 +17,7 @@ const SALON_CONFIG = {
   // ─────────────────────────────
   // GoogleクチコミURL
   // ─────────────────────────────
-  googleReviewUrl: "https://maps.app.goo.gl/6XYDFBP85kK7zUHc9",
+  googleReviewUrl: "https://www.google.co.jp/maps/place/Lit+Bodymake+Studio+%E7%A6%8F%E4%BA%95%E5%B8%82/@36.0856098,136.2164516,15z/data=!3m1!5s0x5ff8bfe33fdd4ea5:0x873d4843238ef77a!4m12!1m2!2m1!1sLIT!3m8!1s0x5ff8bfa0dbff1597:0x1c19b45dd053e74f!8m2!3d36.1058718!4d136.2242151!9m1!1b1!15sCgNMSVRaBSIDbGl0kgEQcGVyc29uYWxfdHJhaW5lcpoBJENoZERTVWhOTUc5blMwVkpRMEZuU1VOU2RFMXhhWEJuUlJBQuABAPoBBAgAEB0!16s%2Fg%2F11khckbrk4?entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D",
 
   // ─────────────────────────────
   // Q① 利用したサービス（複数選択可）
@@ -137,6 +137,7 @@ const SALON_CONFIG = {
 ・回数券に有効期限がなく、単価も変わらないため自分のペースで無理なく続けられること
 ・女性スタッフが在籍しており、女性特有の悩みに寄り添ってくれること
 ・40代以降の女性が多く、食事だけでは維持できなくなってきた体型・姿勢の悩みに対応していること
+トレーナーの名前を書く場合は「江原さん」「江原トレーナー」のように自然に呼び、「江原様」とは書かないでください。
 専門用語は避け、実際に体験した方の言葉として自然に書いてください。`
 
 };
