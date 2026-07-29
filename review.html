@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+<!-- TEMPLATE_VERSION: v1.3 (2026-07-30) 年代を6区分に変更／貼り付け欄を廃止しGoogleクチコミボタンを2箇所に／ v1.2 (2026-07-29) 生成失敗時はコピー・投稿ボタンを隠しエラー文の投稿を防止／ v1.1 (2026-07-25) プログレスバー拡大(質問n/7・％表示)＋結果ページに投稿手順と写真動画の案内・投稿ボタン拡大 -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -71,30 +72,51 @@
       text-transform: uppercase;
     }
 
-    /* ── プログレスバー ── */
+    /* ── プログレスバー（v1.1：太く・数字を大きく・上部に固定） ── */
     .progress-wrap {
       width: 100%;
       max-width: 480px;
-      padding: 12px 20px 0;
+      padding: 14px 20px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--cream);
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 7px;
+    }
+    .progress-count {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--navy);
+      letter-spacing: 0.03em;
+    }
+    .progress-count b {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0;
+    }
+    .progress-percent {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--blue);
     }
     .progress-bar {
-      height: 3px;
-      background: var(--blue-lt);
-      border-radius: 2px;
+      height: 10px;
+      background: var(--warm);
+      border: 1px solid var(--blue-lt);
+      border-radius: 6px;
       overflow: hidden;
     }
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--blue), #5a9fd4);
-      border-radius: 2px;
-      transition: width 0.5s ease;
-    }
-    .progress-text {
-      font-size: 11px;
-      color: var(--light);
-      text-align: right;
-      margin-top: 5px;
-      letter-spacing: 0.05em;
+      background: linear-gradient(90deg, var(--blue), var(--navy));
+      border-radius: 5px;
+      transition: width 0.45s ease;
     }
 
     /* ── カード ── */
@@ -144,7 +166,11 @@
     }
 
     /* ── 質問ラベル ── */
+    /* v1.1：上のプログレスバーが「質問 n / 7」を大きく出すようになったため、
+       カード内の小さな「Q n / 7」は二重表示になる。非表示にしている。
+       元に戻したいときは、次の行の display:none を消すだけでOK。 */
     .step-label {
+      display: none;
       font-size: 10px;
       letter-spacing: 0.2em;
       color: var(--blue);
@@ -276,11 +302,17 @@
       margin-top: 10px;
     }
     .btn-outline:hover { background: var(--warm); }
+    /* v1.1：投稿ボタンは最終ゴールなので、他のボタンよりはっきり大きくする */
     .btn-google {
-      background: linear-gradient(135deg, #4285f4, #34a0f5);
+      background: linear-gradient(135deg, #4285f4, #1a73e8);
       color: white;
       margin-top: 10px;
-      box-shadow: 0 4px 16px rgba(66,133,244,0.3);
+      padding: 20px 15px;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      border-radius: 14px;
+      box-shadow: 0 6px 22px rgba(66,133,244,0.45);
     }
     .btn-google:hover { transform: translateY(-1px); }
     .btn-copy {
@@ -325,6 +357,24 @@
       margin-bottom: 20px;
       min-height: 120px;
     }
+    /* v1.2：生成に失敗したときの表示。
+       このときは下のコピー・投稿ボタンをJSで隠すので、エラー文が投稿されることはない */
+    .review-box.is-error {
+      background: #fdf3f1;
+      border: 1.5px solid var(--neg);
+      color: var(--neg);
+      font-weight: 500;
+      min-height: 0;
+    }
+    .retry-hint {
+      font-size: 13.5px;
+      color: var(--mid);
+      line-height: 1.8;
+      background: var(--warm);
+      border-radius: 8px;
+      padding: 13px 15px;
+      margin-bottom: 20px;
+    }
     .paste-area {
       width: 100%;
       min-height: 80px;
@@ -341,6 +391,55 @@
     }
     .paste-area:focus { border-color: var(--blue); }
     .paste-label { font-size: 12px; color: var(--light); margin-bottom: 6px; text-align: center; }
+
+    /* ── このあとの流れ（v1.1で追加） ── */
+    .next-guide {
+      background: var(--warm);
+      border: 2px solid var(--blue);
+      border-radius: 12px;
+      padding: 18px 16px 16px;
+      margin-bottom: 16px;
+    }
+    .next-guide-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+    .next-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 15px;
+    }
+    .next-step:last-of-type { margin-bottom: 0; }
+    .next-num {
+      flex: 0 0 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 28px;
+      text-align: center;
+    }
+    .next-body { font-size: 16px; color: var(--dark); line-height: 1.6; padding-top: 2px; }
+    .next-body b { font-weight: 700; color: var(--navy); }
+    .next-body span { display: inline-block; font-size: 13.5px; color: var(--mid); margin-top: 3px; }
+    .next-photo {
+      margin-top: 16px;
+      padding: 14px 14px;
+      background: var(--white);
+      border: 2px dashed var(--blue);
+      border-radius: 10px;
+      font-size: 15px;
+      color: var(--dark);
+      line-height: 1.75;
+    }
+    .next-photo b { font-size: 16px; color: var(--blue); }
 
     /* ── ページ表示制御 ── */
     .step { display: none; }
@@ -369,8 +468,11 @@
 </div>
 
 <div class="progress-wrap" id="progress-wrap" style="display:none;">
+  <div class="progress-text">
+    <span class="progress-count" id="progress-count"></span>
+    <span class="progress-percent" id="progress-percent"></span>
+  </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  <div class="progress-text" id="progress-text"></div>
 </div>
 
 <!-- STEP 0: ウェルカム -->
@@ -403,10 +505,12 @@
     <div>
       <div class="sub-label">年代</div>
       <div class="radio-group" id="age-group">
-        <div class="radio-btn" onclick="selectRadio('age','20s',this)">20代以下</div>
+        <div class="radio-btn" onclick="selectRadio('age','10s',this)">10代以下</div>
+        <div class="radio-btn" onclick="selectRadio('age','20s',this)">20代</div>
         <div class="radio-btn" onclick="selectRadio('age','30s',this)">30代</div>
         <div class="radio-btn" onclick="selectRadio('age','40s',this)">40代</div>
-        <div class="radio-btn" onclick="selectRadio('age','50s',this)">50代以上</div>
+        <div class="radio-btn" onclick="selectRadio('age','50s',this)">50代</div>
+        <div class="radio-btn" onclick="selectRadio('age','60s',this)">60代以上</div>
       </div>
     </div>
   </div>
@@ -505,23 +609,62 @@
 
 <!-- STEP 9: 結果 -->
 <div class="card step" id="step-9">
-  <div class="result-title">✦ クチコミが完成しました</div>
-  <div class="disclaimer">
+  <div class="result-title" id="result-title">✦ クチコミが完成しました</div>
+  <div class="disclaimer" id="result-disclaimer">
     この文章はお客様の実体験をもとに作成されています。<br>
     内容に誤りや気になる点がございましたら、<br>
     投稿前にご自身で修正をお願いいたします。
   </div>
   <div class="review-box" id="review-result"></div>
+  <!-- 失敗したときだけ出る案内。下の「この雰囲気で作り直す」へ誘導する -->
+  <div class="retry-hint" id="retry-hint" style="display:none;">
+    お手数ですが、下の <b>「この雰囲気で作り直す」</b> をもう一度押してください。<br>
+    回答した内容はそのまま残っています。
+  </div>
+  <!-- ▼ 生成に失敗したときは、ここから下をまるごと隠す（エラー文の投稿を防ぐため） -->
+  <div id="result-actions">
   <button class="btn btn-copy" onclick="copyReview()">クチコミをコピーする</button>
   <div class="copy-success" id="copy-success"></div>
   <div class="divider"></div>
-  <div class="paste-label">↓ ここに貼り付けて確認できます（任意）</div>
-  <textarea class="paste-area" placeholder="コピーしたクチコミをここに貼り付けてみてください"></textarea>
+  <a id="google-review-link-top" href="#" target="_blank" class="btn btn-google" style="text-decoration:none;text-align:center;display:block;">
+    Googleクチコミへ投稿する
+  </a>
   <div class="divider"></div>
+  <div class="next-guide">
+    <div class="next-guide-title">このあと、Googleの画面ですること</div>
+    <div class="next-step">
+      <div class="next-num">1</div>
+      <div class="next-body"><b>★をタップ</b>して評価を選びます</div>
+    </div>
+    <div class="next-step">
+      <div class="next-num">2</div>
+      <div class="next-body">入力欄を<b>長押しして「貼り付け」</b><br><span>さきほどコピーした文章がそのまま入ります</span></div>
+    </div>
+    <div class="next-step">
+      <div class="next-num">3</div>
+      <div class="next-body"><b>写真・動画を追加</b>して投稿します<br><span>カメラのマークから選べます</span></div>
+    </div>
+    <div class="next-photo">
+      📸 <b>撮られた写真・動画のアップも大歓迎です！</b><br>
+      写真や動画のついたクチコミは、Googleの検索でもAIのおすすめでも見つけてもらいやすくなります。
+      スマホに残っている1枚で大丈夫です。
+    </div>
+  </div>
   <a id="google-review-link" href="#" target="_blank" class="btn btn-google" style="text-decoration:none;text-align:center;display:block;">
     Googleクチコミへ投稿する
   </a>
-  <button class="btn btn-outline" onclick="regenerate()">作り直す</button>
+  </div>
+  <!-- ▲ ここまでが「成功したときだけ見せる」範囲 -->
+  <div class="divider"></div>
+  <div style="text-align:center;font-size:12.5px;color:var(--mid);margin-bottom:8px;">雰囲気を変えて作り直せます</div>
+  <div class="radio-group" id="tension-group-result" style="margin-bottom:12px;">
+    <div class="radio-btn" onclick="selectTensionResult(1,this)">落ち着いて</div>
+    <div class="radio-btn" onclick="selectTensionResult(2,this)">ひかえめ</div>
+    <div class="radio-btn" onclick="selectTensionResult(3,this)">おまかせ</div>
+    <div class="radio-btn" onclick="selectTensionResult(4,this)">明るめ</div>
+    <div class="radio-btn" onclick="selectTensionResult(5,this)">元気に</div>
+  </div>
+  <button class="btn btn-outline" onclick="regenerate()">この雰囲気で作り直す</button>
   <button class="btn btn-secondary" onclick="resetAll()">最初からやりなおす</button>
 </div>
 
@@ -547,6 +690,7 @@ function applyConfig() {
   document.getElementById('welcome-body').textContent =
     SALON_CONFIG.welcomeMessage + "\n" + SALON_CONFIG.subMessage;
   document.getElementById('google-review-link').href = SALON_CONFIG.googleReviewUrl;
+  document.getElementById('google-review-link-top').href = SALON_CONFIG.googleReviewUrl;
   if (SALON_CONFIG.welcomeIcon) {
     document.getElementById('welcome-icon').textContent = SALON_CONFIG.welcomeIcon;
   }
@@ -568,10 +712,16 @@ function goStep(n) {
     pw.style.display = 'none';
   } else {
     pw.style.display = 'block';
-    document.getElementById('progress-fill').style.width = Math.round((n / TOTAL_STEPS) * 100) + '%';
-    document.getElementById('progress-text').textContent = n + ' / ' + TOTAL_STEPS;
+    var pct = Math.round((n / TOTAL_STEPS) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').innerHTML = '質問 <b>' + n + '</b> / ' + TOTAL_STEPS;
+    document.getElementById('progress-percent').textContent = pct + '%';
   }
   if (n === 3) buildStep3();
+  if (n === 9) {
+    const t = state.tension || 3;
+    document.querySelectorAll('#tension-group-result .radio-btn').forEach((b, i) => b.classList.toggle('selected', i === t - 1));
+  }
 }
 
 function buildServices() {
@@ -604,6 +754,14 @@ function selectTension(val, el) {
   document.querySelectorAll('#tension-group .radio-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
   state.tension = val;
+}
+
+function selectTensionResult(val, el) {
+  document.querySelectorAll('#tension-group-result .radio-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.tension = val;
+  // Q7側の選択もそろえる
+  document.querySelectorAll('#tension-group .radio-btn').forEach((b, i) => b.classList.toggle('selected', i === val - 1));
 }
 
 function buildStep3() {
@@ -650,6 +808,33 @@ function toggleCheck(id, el, stateKey, btnId) {
   document.getElementById(btnId).disabled = state[stateKey].length === 0;
 }
 
+// v1.2：生成に成功したかどうか。失敗中は true にならない。
+// これが false のあいだは、コピー・投稿ボタンを隠し、copyReview() も動かない。
+// （エラー文がそのままGoogleクチコミに投稿されてしまうのを防ぐため）
+var reviewReady = false;
+
+function showResult(text) {
+  reviewReady = true;
+  document.getElementById('review-result').textContent = text;
+  document.getElementById('review-result').classList.remove('is-error');
+  document.getElementById('result-title').textContent = '✦ クチコミが完成しました';
+  document.getElementById('result-disclaimer').style.display = '';
+  document.getElementById('retry-hint').style.display = 'none';
+  document.getElementById('result-actions').style.display = '';
+  document.getElementById('copy-success').textContent = '';
+}
+
+function showResultError(message) {
+  reviewReady = false;
+  document.getElementById('review-result').textContent = message;
+  document.getElementById('review-result').classList.add('is-error');
+  document.getElementById('result-title').textContent = '✦ うまく作れませんでした';
+  document.getElementById('result-disclaimer').style.display = 'none';
+  document.getElementById('retry-hint').style.display = '';
+  document.getElementById('result-actions').style.display = 'none';   // ← コピー・投稿ボタンを隠す
+  document.getElementById('copy-success').textContent = '';
+}
+
 async function generateReview() {
   state.freeText = document.getElementById('free-text').value.trim();
   goStep(8);
@@ -660,11 +845,12 @@ async function generateReview() {
       body: JSON.stringify({ system: buildSystemPrompt(), messages: [{ role: 'user', content: buildPrompt() }] })
     });
     const data = await res.json();
-    document.getElementById('review-result').textContent = data.content?.[0]?.text || "生成に失敗しました。もう一度お試しください。";
-    document.getElementById('copy-success').textContent = '';
+    const text = data.content && data.content[0] && data.content[0].text;
+    if (text) showResult(text);
+    else showResultError('文章を作れませんでした。もう一度お試しください。');
     goStep(9);
   } catch (e) {
-    document.getElementById('review-result').textContent = "通信エラーが発生しました。もう一度お試しください。";
+    showResultError('通信エラーが発生しました。もう一度お試しください。');
     goStep(9);
   }
 }
@@ -719,12 +905,24 @@ var HUMANIZE_DEFAULT = { name:'一般', tone:'ですます調で自然・素朴'
 function humanizeProfile(bt){ for(var i=0;i<HUMANIZE_PROFILES.length;i++){ if(HUMANIZE_PROFILES[i].key.test(bt||'')) return HUMANIZE_PROFILES[i]; } return HUMANIZE_DEFAULT; }
 
 // テンションメーター(1〜5)で絵文字・記号の量を決める。入力者が選ぶ。既定は3（おまかせ＝業種の自然な量）。
-function humanizeEmojiByTension(prof, tension){
+// gender='male' のときは、♡💕💖😍🎵などの可愛い系・女性的な絵文字を避け、😊✨や(^^)☆◎‼️など中性的なものに限定する。
+var MALE_NO_EMOJI = '♡💕💖😍🎵などの可愛い系・女性的な絵文字は使わず、😊 ✨ (^^) ☆ ◎ ‼️ などの中性的な絵文字・記号だけにする';
+function humanizeEmojiByTension(prof, tension, gender){
+  var male = (gender === 'male');
   if (tension <= 1) return '絵文字・記号は一切使わない。「！」も使わず、淡々とした落ち着いた文章にする';
   if (tension === 2) return '絵文字・記号はほぼ使わない（使っても文末に控えめな記号を1個まで）。「！」も多くて1回';
-  if (tension === 3) return hPickW(prof.emoji).r;   // おまかせ＝実データ準拠の自然な量
-  if (tension === 4) return 'この業種に合う絵文字・記号（' + prof.palette + '）や 😊 🎵 ✨ などを2〜4個、明るめに使う。「！」も1〜3回。楽しさが伝わる感じに';
-  return 'この業種に合う絵文字・記号（' + prof.palette + '）や 😊 😍 🎵 💕 ✨ などの明るい絵文字を3〜6個たっぷり使う。「！」も多めに。とても元気で明るいテンションにする';
+  if (tension === 3){
+    var r = hPickW(prof.emoji).r;
+    return male ? r + '（ただし' + MALE_NO_EMOJI + '）' : r;
+  }
+  if (tension === 4){
+    return male
+      ? '😊 ✨ (^^) ☆ ◎ ‼️ などの中性的な絵文字・記号を2〜3個、明るめに使う。「！」も1〜3回。' + MALE_NO_EMOJI
+      : 'この業種に合う絵文字・記号（' + prof.palette + '）や 😊 🎵 ✨ などを2〜4個、明るめに使う。「！」も1〜3回。楽しさが伝わる感じに';
+  }
+  return male
+    ? '😊 ✨ (^^) ☆ ◎ ‼️ などの中性的な絵文字・記号を3〜5個たっぷり使い、「！」も多めに。とても元気で明るいテンションにする。' + MALE_NO_EMOJI
+    : 'この業種に合う絵文字・記号（' + prof.palette + '）や 😊 😍 🎵 💕 ✨ などの明るい絵文字を3〜6個たっぷり使う。「！」も多めに。とても元気で明るいテンションにする';
 }
 
 // 書き出しの型：作り話ではなく「実際の回答/メッセージのどこから書くか」の順番だけを変える
@@ -760,7 +958,7 @@ function humanizeDrawPersona(){
     opening: hasFree && Math.random() < 0.6 ? HUMANIZE_OPENINGS_FREE : hPick(HUMANIZE_OPENINGS),
     closing: hPick(HUMANIZE_CLOSINGS),
     length: hPickW(lengthBands).r,
-    emoji: humanizeEmojiByTension(prof, tension),
+    emoji: humanizeEmojiByTension(prof, tension, state.gender),
     brk: hPickW(HUMANIZE_BREAKS).r,
     hasFree: hasFree,
   };
@@ -770,7 +968,7 @@ function buildSystemPrompt(){
   var p = humanizeDrawPersona();
   var prof = p.prof;
   var genderText = ({female:'女性',male:'男性',other:'性別未回答'})[state.gender] || '性別未回答';
-  var ageText = ({'20s':'20代以下','30s':'30代','40s':'40代','50s':'50代以上'})[state.age] || '';
+  var ageText = ({'10s':'10代以下','20s':'20代','30s':'30代','40s':'40代','50s':'50代','60s':'60代以上'})[state.age] || '';
   // 店舗独自ワードの抑制。基本は全て禁止（店により有無が違い宣伝文＝AI感になるため）。
   // 例外は SALON_CONFIG.promoteTerms に明示的に入れた語だけ（＝新規作成時にユーザーが「載せてよい」と
   // 案件ごとに承認した店舗独自ワード）。promoteTerms が無い/空なら、店舗独自ワードは全て抑制。
@@ -847,7 +1045,7 @@ function buildPrompt() {
   const hasNeg = [...state.goodPoints, ...state.recommendations, ...state.staffImpressions]
     .some(id => allGood.concat(SALON_CONFIG.recommendations, SALON_CONFIG.staffImpressions).find(x => x.id === id)?.negative);
   const genderText = { female: '女性', male: '男性', other: '未回答' }[state.gender] || '未回答';
-  const ageText = { '20s': '20代以下', '30s': '30代', '40s': '40代', '50s': '50代以上' }[state.age] || '';
+  const ageText = { '10s': '10代以下', '20s': '20代', '30s': '30代', '40s': '40代', '50s': '50代', '60s': '60代以上' }[state.age] || '';
 
   return `以下の情報をもとに、${SALON_CONFIG.salonName}のGoogleクチコミ文章を作成してください。
 
@@ -866,6 +1064,8 @@ function buildPrompt() {
 }
 
 function copyReview() {
+  // v1.2：生成に失敗しているあいだは絶対にコピーさせない（エラー文の投稿防止）
+  if (!reviewReady) return;
   const text = document.getElementById('review-result').textContent;
   navigator.clipboard.writeText(text).then(() => {
     document.getElementById('copy-success').textContent = '✓ コピーしました！Googleクチコミに貼り付けてください。';
